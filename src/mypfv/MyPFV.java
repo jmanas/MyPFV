@@ -7,22 +7,31 @@ import java.util.prefs.Preferences;
 public class MyPFV {
     public static void main(String[] args)
             throws IOException {
-        Preferences preferences = Preferences.userRoot().node("mypfv");
+        help(args);
+        version(args);
 
-        File spec = null;
-        if (args.length == 0) {
-            String last = preferences.get("root", null);
-            if (last != null)
-                spec = new File(last);
-        } else {
-            spec = new File(args[0]);
-        }
-        if (spec == null)
-            return;
-        preferences.put("root", spec.getCanonicalPath());
+        File spec = new File(args[0]);
         Specifications.load(spec);
         if (Specifications.size() > 0)
             start();
+    }
+
+    private static boolean help(String[] args) {
+        if (args.length == 0 || args[0].equalsIgnoreCase("-h")) {
+            System.out.println("MyPFV spec.json");
+            System.out.println("MyPFV -v  -- print version");
+            System.out.println("MyPFV -h  -- print help");
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean version(String[] args) {
+        if (args[0].equalsIgnoreCase("-h")) {
+            System.out.println("MyPFV: " + Version.VERSION);
+            return true;
+        }
+        return false;
     }
 
     private static void start() {
