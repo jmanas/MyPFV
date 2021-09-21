@@ -36,7 +36,9 @@ public class MyPFV {
 
     private static void start() {
         if (Specifications.getLogLevel() > 0)
-            Logger.log("start " + Specifications.getSpecfile().getAbsolutePath());
+            Logger.log(String.format("start %s: %s",
+                    Specifications.getSpecfile().getAbsolutePath(),
+                    Version.VERSION));
         do {
             try {
                 long now = System.currentTimeMillis();
